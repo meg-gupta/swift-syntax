@@ -18,7 +18,7 @@ extension DeclarationModifier {
     case .__consuming, .__setter_access, ._const, ._local, .async,
       .borrowing, .class, .consuming, .convenience, .distributed, .dynamic,
       .final, .indirect, .infix, .isolated, .lazy, .mutating, .nonisolated,
-      .nonmutating, .optional, .override, .postfix, .prefix, .reasync,
+      .nonmutating, .optional, .override, .postfix, .prefix, .reasync, ._resultDependsOnSelf,
       .required, .rethrows, .static, .weak:
       return false
     case .fileprivate, .internal, .package, .open, .private,

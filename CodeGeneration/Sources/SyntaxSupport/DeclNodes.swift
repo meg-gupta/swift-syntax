@@ -461,6 +461,7 @@ public let DECL_NODES: [Node] = [
           .keyword(.private),
           .keyword(.public),
           .keyword(.reasync),
+          .keyword(._resultDependsOn),
           .keyword(.required),
           .keyword(.static),
           .keyword(.unowned),

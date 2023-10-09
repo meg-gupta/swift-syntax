@@ -112,6 +112,8 @@ public enum Keyword: CaseIterable {
   case _projectedValueProperty
   case _read
   case _RefCountedObject
+  case _resultDependsOn
+  case _resultDependsOnSelf
   case _semantics
   case _specialize
   case _spi
@@ -356,6 +358,10 @@ public enum Keyword: CaseIterable {
       return KeywordSpec("_read")
     case ._RefCountedObject:
       return KeywordSpec("_RefCountedObject")
+    case ._resultDependsOn:
+      return KeywordSpec("_resultDependsOn")
+    case ._resultDependsOnSelf:
+      return KeywordSpec("_resultDependsOnSelf")
     case ._semantics:
       return KeywordSpec("_semantics")
     case ._specialize:

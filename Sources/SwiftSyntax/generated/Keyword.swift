@@ -54,6 +54,8 @@ public enum Keyword: UInt8, Hashable {
   case _projectedValueProperty
   case _read
   case _RefCountedObject
+  case _resultDependsOn
+  case _resultDependsOnSelf
   case _semantics
   case _specialize
   case _spi
@@ -684,6 +686,8 @@ public enum Keyword: UInt8, Hashable {
       switch text {
       case "_objcRuntimeName":
         self = ._objcRuntimeName
+      case "_resultDependsOn":
+        self = ._resultDependsOn
       case "addressWithOwner":
         self = .addressWithOwner
       default:
@@ -722,6 +726,8 @@ public enum Keyword: UInt8, Hashable {
         self = ._compilerInitialized
       case "_originallyDefinedIn":
         self = ._originallyDefinedIn
+      case "_resultDependsOnSelf":
+        self = ._resultDependsOnSelf
       case "unsafeMutableAddress":
         self = .unsafeMutableAddress
       default:
@@ -815,6 +821,8 @@ public enum Keyword: UInt8, Hashable {
       "_projectedValueProperty", 
       "_read", 
       "_RefCountedObject", 
+      "_resultDependsOn", 
+      "_resultDependsOnSelf", 
       "_semantics", 
       "_specialize", 
       "_spi", 

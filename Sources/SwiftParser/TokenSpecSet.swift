@@ -376,6 +376,7 @@ enum DeclarationModifier: TokenSpecSet {
   case `static`
   case unowned
   case weak
+  case _resultDependsOnSelf
 
   init?(lexeme: Lexer.Lexeme, experimentalFeatures: Parser.ExperimentalFeatures) {
     switch PrepareForKeywordMatch(lexeme) {
@@ -414,6 +415,7 @@ enum DeclarationModifier: TokenSpecSet {
     case TokenSpec(.static): self = .static
     case TokenSpec(.unowned): self = .unowned
     case TokenSpec(.weak): self = .weak
+    case TokenSpec(._resultDependsOnSelf): self = ._resultDependsOnSelf
     default: return nil
     }
   }
@@ -455,6 +457,7 @@ enum DeclarationModifier: TokenSpecSet {
     case .static: return .keyword(.static)
     case .unowned: return TokenSpec(.unowned, recoveryPrecedence: .declKeyword)
     case .weak: return TokenSpec(.weak, recoveryPrecedence: .declKeyword)
+    case ._resultDependsOnSelf: return TokenSpec(._resultDependsOnSelf, recoveryPrecedence: .declKeyword)
     }
   }
 }
@@ -679,6 +682,7 @@ public enum TypeSpecifier: TokenSpecSet {
   case shared
   case borrowing
   case consuming
+  case _resultDependsOn
 
   init?(lexeme: Lexer.Lexeme, experimentalFeatures: Parser.ExperimentalFeatures) {
     switch PrepareForKeywordMatch(lexeme) {
@@ -687,6 +691,7 @@ public enum TypeSpecifier: TokenSpecSet {
     case TokenSpec(.__shared): self = .shared
     case TokenSpec(.consuming): self = .consuming
     case TokenSpec(.borrowing): self = .borrowing
+    case TokenSpec(._resultDependsOn): self = ._resultDependsOn
     default: return nil
     }
   }
@@ -699,6 +704,7 @@ public enum TypeSpecifier: TokenSpecSet {
     case TokenSpec(.__shared): self = .shared
     case TokenSpec(.consuming): self = .shared
     case TokenSpec(.borrowing): self = .shared
+    case TokenSpec(._resultDependsOn): self = ._resultDependsOn
     default: return nil
     }
   }
@@ -710,6 +716,7 @@ public enum TypeSpecifier: TokenSpecSet {
     case .shared: return .keyword(.__shared)
     case .borrowing: return .keyword(.borrowing)
     case .consuming: return .keyword(.consuming)
+    case ._resultDependsOn: return .keyword(._resultDependsOn)
     }
   }
 }

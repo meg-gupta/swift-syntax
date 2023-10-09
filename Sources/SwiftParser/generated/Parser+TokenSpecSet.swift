@@ -183,6 +183,7 @@ extension AttributedTypeSyntax {
     case _const
     case borrowing
     case consuming
+    case _resultDependsOn
     
     init?(lexeme: Lexer.Lexeme, experimentalFeatures: Parser.ExperimentalFeatures) {
       switch PrepareForKeywordMatch(lexeme) {
@@ -200,6 +201,8 @@ extension AttributedTypeSyntax {
         self = .borrowing
       case TokenSpec(.consuming):
         self = .consuming
+      case TokenSpec(._resultDependsOn):
+        self = ._resultDependsOn
       default:
         return nil
       }
@@ -221,6 +224,8 @@ extension AttributedTypeSyntax {
         return .keyword(.borrowing)
       case .consuming:
         return .keyword(.consuming)
+      case ._resultDependsOn:
+        return .keyword(._resultDependsOn)
       }
     }
     
@@ -244,6 +249,8 @@ extension AttributedTypeSyntax {
         return .keyword(.borrowing)
       case .consuming:
         return .keyword(.consuming)
+      case ._resultDependsOn:
+        return .keyword(._resultDependsOn)
       }
     }
   }
@@ -714,6 +721,7 @@ extension DeclModifierSyntax {
     case `private`
     case `public`
     case reasync
+    case _resultDependsOn
     case required
     case `static`
     case unowned
@@ -783,6 +791,8 @@ extension DeclModifierSyntax {
         self = .public
       case TokenSpec(.reasync):
         self = .reasync
+      case TokenSpec(._resultDependsOn):
+        self = ._resultDependsOn
       case TokenSpec(.required):
         self = .required
       case TokenSpec(.static):
@@ -860,6 +870,8 @@ extension DeclModifierSyntax {
         return .keyword(.public)
       case .reasync:
         return .keyword(.reasync)
+      case ._resultDependsOn:
+        return .keyword(._resultDependsOn)
       case .required:
         return .keyword(.required)
       case .static:
@@ -939,6 +951,8 @@ extension DeclModifierSyntax {
         return .keyword(.public)
       case .reasync:
         return .keyword(.reasync)
+      case ._resultDependsOn:
+        return .keyword(._resultDependsOn)
       case .required:
         return .keyword(.required)
       case .static:
