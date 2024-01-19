@@ -966,7 +966,8 @@ extension Parser {
   mutating func parseResultType() -> RawTypeSyntax {
     if self.currentToken.isEditorPlaceholder {
       return self.parseTypeIdentifier()
-    } else if self.at(prefix: "<") {
+    }
+    if self.at(prefix: "<") {
       let generics = self.parseGenericParameters()
       let baseType = self.parseType()
       return RawTypeSyntax(
@@ -976,61 +977,60 @@ extension Parser {
           arena: self.arena
         )
       )
-    } else {
-      var result = self.parseType()
+    }
+    var result = self.parseType()
 
-      guard !result.hasError else {
+    guard !result.hasError else {
+      return result
+    }
+
+    // If the right square bracket is at a new line, we should just return the result
+    if let rightSquare = self.consume(if: TokenSpec(.rightSquare, allowAtStartOfLine: false)) {
+      result = RawTypeSyntax(
+        RawArrayTypeSyntax(
+          leftSquare: missingToken(.leftSquare),
+          element: result,
+          rightSquare: rightSquare,
+          arena: self.arena
+        )
+      )
+    } else if self.at(.colon) {
+      var lookahead = self.lookahead()
+      // We only want to continue with a dictionary if we can parse a colon and a simple type.
+      // Otherwise we can get a wrong diagnostic if we get a Python-style function declaration.
+      guard lookahead.consume(if: .colon) != nil && lookahead.canParseSimpleType(),
+        let colon = self.consume(if: TokenSpec(.colon, allowAtStartOfLine: false))
+      else {
         return result
       }
 
-      // If the right square bracket is at a new line, we should just return the result
-      if let rightSquare = self.consume(if: TokenSpec(.rightSquare, allowAtStartOfLine: false)) {
-        result = RawTypeSyntax(
-          RawArrayTypeSyntax(
-            leftSquare: missingToken(.leftSquare),
-            element: result,
-            rightSquare: rightSquare,
-            arena: self.arena
-          )
+      let secondType = self.parseSimpleType()
+      let rightSquare = self.consume(if: .rightSquare) ?? self.missingToken(.rightSquare)
+
+      result = RawTypeSyntax(
+        RawDictionaryTypeSyntax(
+          leftSquare: self.missingToken(.leftSquare),
+          key: result,
+          colon: colon,
+          value: secondType,
+          rightSquare: rightSquare,
+          arena: self.arena
         )
-      } else if self.at(.colon) {
-        var lookahead = self.lookahead()
-        // We only want to continue with a dictionary if we can parse a colon and a simple type.
-        // Otherwise we can get a wrong diagnostic if we get a Python-style function declaration.
-        guard lookahead.consume(if: .colon) != nil && lookahead.canParseSimpleType(),
-          let colon = self.consume(if: TokenSpec(.colon, allowAtStartOfLine: false))
-        else {
-          return result
-        }
-
-        let secondType = self.parseSimpleType()
-        let rightSquare = self.consume(if: .rightSquare) ?? self.missingToken(.rightSquare)
-
-        result = RawTypeSyntax(
-          RawDictionaryTypeSyntax(
-            leftSquare: self.missingToken(.leftSquare),
-            key: result,
-            colon: colon,
-            value: secondType,
-            rightSquare: rightSquare,
-            arena: self.arena
-          )
-        )
-      }
-
-      var loopProgress = LoopProgressCondition()
-      while self.hasProgressed(&loopProgress) {
-        if self.at(TokenSpec(.postfixQuestionMark, allowAtStartOfLine: false)) {
-          result = RawTypeSyntax(self.parseOptionalType(result))
-        } else if self.at(TokenSpec(.exclamationMark, allowAtStartOfLine: false)) {
-          result = RawTypeSyntax(self.parseImplicitlyUnwrappedOptionalType(result))
-        } else {
-          break
-        }
-      }
-
-      return result
+      )
     }
+
+    var loopProgress = LoopProgressCondition()
+    while self.hasProgressed(&loopProgress) {
+      if self.at(TokenSpec(.postfixQuestionMark, allowAtStartOfLine: false)) {
+        result = RawTypeSyntax(self.parseOptionalType(result))
+      } else if self.at(TokenSpec(.exclamationMark, allowAtStartOfLine: false)) {
+        result = RawTypeSyntax(self.parseImplicitlyUnwrappedOptionalType(result))
+      } else {
+        break
+      }
+    }
+
+    return result
   }
 }
 
