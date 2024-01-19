@@ -761,6 +761,8 @@ extension LabeledExprSyntax: WithTrailingCommaSyntax {}
 
 extension LabeledSpecializeArgumentSyntax: WithTrailingCommaSyntax {}
 
+extension LifetimeDependenceSpecifierSyntax: LifetimeDependenceSpecifiersSyntax {}
+
 extension MacroDeclSyntax: NamedDeclSyntax, WithAttributesSyntax, WithGenericParametersSyntax, WithModifiersSyntax {}
 
 extension MacroExpansionDeclSyntax: FreestandingMacroExpansionSyntax, WithAttributesSyntax, WithModifiersSyntax {}

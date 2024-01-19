@@ -178,6 +178,8 @@ public enum SyntaxEnum: Sendable {
   case labeledSpecializeArgument(LabeledSpecializeArgumentSyntax)
   case labeledStmt(LabeledStmtSyntax)
   case layoutRequirement(LayoutRequirementSyntax)
+  case lifetimeDependenceSpecifier(LifetimeDependenceSpecifierSyntax)
+  case lifetimeDependentReturnType(LifetimeDependentReturnTypeSyntax)
   case macroDecl(MacroDeclSyntax)
   case macroExpansionDecl(MacroExpansionDeclSyntax)
   case macroExpansionExpr(MacroExpansionExprSyntax)
@@ -627,6 +629,10 @@ public extension Syntax {
       return .labeledStmt(LabeledStmtSyntax(self)!)
     case .layoutRequirement:
       return .layoutRequirement(LayoutRequirementSyntax(self)!)
+    case .lifetimeDependenceSpecifier:
+      return .lifetimeDependenceSpecifier(LifetimeDependenceSpecifierSyntax(self)!)
+    case .lifetimeDependentReturnType:
+      return .lifetimeDependentReturnType(LifetimeDependentReturnTypeSyntax(self)!)
     case .macroDecl:
       return .macroDecl(MacroDeclSyntax(self)!)
     case .macroExpansionDecl:
@@ -1242,6 +1248,7 @@ public enum TypeSyntaxEnum {
   case functionType(FunctionTypeSyntax)
   case identifierType(IdentifierTypeSyntax)
   case implicitlyUnwrappedOptionalType(ImplicitlyUnwrappedOptionalTypeSyntax)
+  case lifetimeDependentReturnType(LifetimeDependentReturnTypeSyntax)
   case memberType(MemberTypeSyntax)
   case metatypeType(MetatypeTypeSyntax)
   case missingType(MissingTypeSyntax)
@@ -1274,6 +1281,8 @@ public extension TypeSyntax {
       return .identifierType(IdentifierTypeSyntax(self)!)
     case .implicitlyUnwrappedOptionalType:
       return .implicitlyUnwrappedOptionalType(ImplicitlyUnwrappedOptionalTypeSyntax(self)!)
+    case .lifetimeDependentReturnType:
+      return .lifetimeDependentReturnType(LifetimeDependentReturnTypeSyntax(self)!)
     case .memberType:
       return .memberType(MemberTypeSyntax(self)!)
     case .metatypeType:

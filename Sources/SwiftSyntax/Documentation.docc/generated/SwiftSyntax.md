@@ -192,6 +192,7 @@ These articles are intended for developers wishing to contribute to SwiftSyntax
 - <doc:SwiftSyntax/FunctionTypeSyntax>
 - <doc:SwiftSyntax/IdentifierTypeSyntax>
 - <doc:SwiftSyntax/ImplicitlyUnwrappedOptionalTypeSyntax>
+- <doc:SwiftSyntax/LifetimeDependentReturnTypeSyntax>
 - <doc:SwiftSyntax/MemberTypeSyntax>
 - <doc:SwiftSyntax/MetatypeTypeSyntax>
 - <doc:SwiftSyntax/NamedOpaqueReturnTypeSyntax>
@@ -367,6 +368,7 @@ These articles are intended for developers wishing to contribute to SwiftSyntax
 - <doc:SwiftSyntax/KeyPathPropertyComponentSyntax>
 - <doc:SwiftSyntax/KeyPathSubscriptComponentSyntax>
 - <doc:SwiftSyntax/LayoutRequirementSyntax>
+- <doc:SwiftSyntax/LifetimeDependenceSpecifierSyntax>
 - <doc:SwiftSyntax/MatchingPatternConditionSyntax>
 - <doc:SwiftSyntax/MemberBlockSyntax>
 - <doc:SwiftSyntax/MissingSyntax>

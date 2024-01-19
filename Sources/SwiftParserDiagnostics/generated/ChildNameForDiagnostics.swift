@@ -288,6 +288,8 @@ private func childNameForDiagnostics(_ keyPath: AnyKeyPath) -> String? {
     return "body"
   case \RepeatStmtSyntax.condition:
     return "condition"
+  case \ReturnClauseSyntax.lifetimeDependenceSpecifier:
+    return "Lifetime dependence specifier"
   case \ReturnClauseSyntax.type:
     return "return type"
   case \SameTypeRequirementSyntax.leftType:

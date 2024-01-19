@@ -4691,6 +4691,61 @@ extension LayoutRequirementSyntax {
   }
 }
 
+extension LifetimeDependentReturnTypeSyntax {
+  @available(*, deprecated, renamed: "unexpectedBetweenLifetimeDependenceSpecifierAndType")
+  public var unexpectedBetweenLifetimeDependenceSpecifierAndBaseType: UnexpectedNodesSyntax? {
+    get {
+      return unexpectedBetweenLifetimeDependenceSpecifierAndType
+    }
+    set {
+      unexpectedBetweenLifetimeDependenceSpecifierAndType = newValue
+    }
+  }
+  
+  @available(*, deprecated, renamed: "type")
+  public var baseType: TypeSyntax {
+    get {
+      return type
+    }
+    set {
+      type = newValue
+    }
+  }
+  
+  @available(*, deprecated, renamed: "unexpectedAfterType")
+  public var unexpectedAfterBaseType: UnexpectedNodesSyntax? {
+    get {
+      return unexpectedAfterType
+    }
+    set {
+      unexpectedAfterType = newValue
+    }
+  }
+  
+  @available(*, deprecated, renamed: "LifetimeDependentReturnTypeSyntax(leadingTrivia:_:lifetimeDependenceSpecifier:_:type:_:trailingTrivia:)")
+  @_disfavoredOverload
+  public init(
+      leadingTrivia: Trivia? = nil,
+      _ unexpectedBeforeLifetimeDependenceSpecifier: UnexpectedNodesSyntax? = nil,
+      lifetimeDependenceSpecifier: LifetimeDependenceSpecifierSyntax,
+      _ unexpectedBetweenLifetimeDependenceSpecifierAndBaseType: UnexpectedNodesSyntax? = nil,
+      baseType: some TypeSyntaxProtocol,
+      _ unexpectedAfterBaseType: UnexpectedNodesSyntax? = nil,
+      trailingTrivia: Trivia? = nil
+    
+  ) {
+    self.init(
+        leadingTrivia: leadingTrivia, 
+        unexpectedBeforeLifetimeDependenceSpecifier, 
+        lifetimeDependenceSpecifier: lifetimeDependenceSpecifier, 
+        unexpectedBetweenLifetimeDependenceSpecifierAndBaseType, 
+        type: baseType, 
+        unexpectedAfterBaseType, 
+        trailingTrivia: trailingTrivia
+      )
+  }
+}
+
 extension MacroDeclSyntax {
   @available(*, deprecated, renamed: "unexpectedBetweenMacroKeywordAndName")
   public var unexpectedBetweenMacroKeywordAndIdentifier: UnexpectedNodesSyntax? {
@@ -6703,13 +6758,13 @@ extension RegexLiteralExprSyntax {
 }
 
 extension ReturnClauseSyntax {
-  @available(*, deprecated, renamed: "unexpectedBetweenArrowAndType")
-  public var unexpectedBetweenArrowAndReturnType: UnexpectedNodesSyntax? {
+  @available(*, deprecated, renamed: "unexpectedBetweenLifetimeDependenceSpecifierAndType")
+  public var unexpectedBetweenLifetimeDependenceSpecifierAndReturnType: UnexpectedNodesSyntax? {
     get {
-      return unexpectedBetweenArrowAndType
+      return unexpectedBetweenLifetimeDependenceSpecifierAndType
     }
     set {
-      unexpectedBetweenArrowAndType = newValue
+      unexpectedBetweenLifetimeDependenceSpecifierAndType = newValue
     }
   }
   
@@ -6733,13 +6788,15 @@ extension ReturnClauseSyntax {
     }
   }
   
-  @available(*, deprecated, renamed: "ReturnClauseSyntax(leadingTrivia:_:arrow:_:type:_:trailingTrivia:)")
+  @available(*, deprecated, renamed: "ReturnClauseSyntax(leadingTrivia:_:arrow:_:lifetimeDependenceSpecifier:_:type:_:trailingTrivia:)")
   @_disfavoredOverload
   public init(
       leadingTrivia: Trivia? = nil,
       _ unexpectedBeforeArrow: UnexpectedNodesSyntax? = nil,
       arrow: TokenSyntax = .arrowToken(),
-      _ unexpectedBetweenArrowAndReturnType: UnexpectedNodesSyntax? = nil,
+      _ unexpectedBetweenArrowAndLifetimeDependenceSpecifier: UnexpectedNodesSyntax? = nil,
+      lifetimeDependenceSpecifier: LifetimeDependenceSpecifierSyntax? = nil,
+      _ unexpectedBetweenLifetimeDependenceSpecifierAndReturnType: UnexpectedNodesSyntax? = nil,
       returnType: some TypeSyntaxProtocol,
       _ unexpectedAfterReturnType: UnexpectedNodesSyntax? = nil,
       trailingTrivia: Trivia? = nil
@@ -6749,7 +6806,9 @@ extension ReturnClauseSyntax {
         leadingTrivia: leadingTrivia, 
         unexpectedBeforeArrow, 
         arrow: arrow, 
-        unexpectedBetweenArrowAndReturnType, 
+        unexpectedBetweenArrowAndLifetimeDependenceSpecifier, 
+        lifetimeDependenceSpecifier: lifetimeDependenceSpecifier, 
+        unexpectedBetweenLifetimeDependenceSpecifierAndReturnType, 
         type: returnType, 
         unexpectedAfterReturnType, 
         trailingTrivia: trailingTrivia

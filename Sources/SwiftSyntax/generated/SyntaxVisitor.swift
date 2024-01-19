@@ -1960,6 +1960,30 @@ open class SyntaxVisitor {
   open func visitPost(_ node: LayoutRequirementSyntax) {
   }
   
+  /// Visiting ``LifetimeDependenceSpecifierSyntax`` specifically.
+  ///   - Parameter node: the node we are visiting.
+  ///   - Returns: how should we continue visiting.
+  open func visit(_ node: LifetimeDependenceSpecifierSyntax) -> SyntaxVisitorContinueKind {
+    return .visitChildren
+  }
+  
+  /// The function called after visiting ``LifetimeDependenceSpecifierSyntax`` and its descendants.
+  ///   - node: the node we just finished visiting.
+  open func visitPost(_ node: LifetimeDependenceSpecifierSyntax) {
+  }
+  
+  /// Visiting ``LifetimeDependentReturnTypeSyntax`` specifically.
+  ///   - Parameter node: the node we are visiting.
+  ///   - Returns: how should we continue visiting.
+  open func visit(_ node: LifetimeDependentReturnTypeSyntax) -> SyntaxVisitorContinueKind {
+    return .visitChildren
+  }
+  
+  /// The function called after visiting ``LifetimeDependentReturnTypeSyntax`` and its descendants.
+  ///   - node: the node we just finished visiting.
+  open func visitPost(_ node: LifetimeDependentReturnTypeSyntax) {
+  }
+  
   /// Visiting ``MacroDeclSyntax`` specifically.
   ///   - Parameter node: the node we are visiting.
   ///   - Returns: how should we continue visiting.
@@ -4084,6 +4108,14 @@ open class SyntaxVisitor {
       return {
         self.visitImpl($0, LayoutRequirementSyntax.self, self.visit, self.visitPost)
       }
+    case .lifetimeDependenceSpecifier:
+      return {
+        self.visitImpl($0, LifetimeDependenceSpecifierSyntax.self, self.visit, self.visitPost)
+      }
+    case .lifetimeDependentReturnType:
+      return {
+        self.visitImpl($0, LifetimeDependentReturnTypeSyntax.self, self.visit, self.visitPost)
+      }
     case .macroDecl:
       return {
         self.visitImpl($0, MacroDeclSyntax.self, self.visit, self.visitPost)
@@ -4889,6 +4921,10 @@ open class SyntaxVisitor {
       visitImpl(node, LabeledStmtSyntax.self, visit, visitPost)
     case .layoutRequirement:
       visitImpl(node, LayoutRequirementSyntax.self, visit, visitPost)
+    case .lifetimeDependenceSpecifier:
+      visitImpl(node, LifetimeDependenceSpecifierSyntax.self, visit, visitPost)
+    case .lifetimeDependentReturnType:
+      visitImpl(node, LifetimeDependentReturnTypeSyntax.self, visit, visitPost)
     case .macroDecl:
       visitImpl(node, MacroDeclSyntax.self, visit, visitPost)
     case .macroExpansionDecl:

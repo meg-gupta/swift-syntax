@@ -247,6 +247,10 @@ extension SyntaxKind {
       return "labeled statement"
     case .layoutRequirement:
       return "layout requirement"
+    case .lifetimeDependenceSpecifier:
+      return "lifetime dependence specifiers"
+    case .lifetimeDependentReturnType:
+      return "lifetime dependent return type"
     case .macroDecl:
       return "macro"
     case .macroExpansionDecl:

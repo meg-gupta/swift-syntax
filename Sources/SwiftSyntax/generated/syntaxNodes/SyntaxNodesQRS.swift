@@ -399,6 +399,7 @@ public struct RepeatStmtSyntax: StmtSyntaxProtocol, SyntaxHashable, _LeafStmtSyn
 /// ### Children
 /// 
 ///  - `arrow`: `->`
+///  - `lifetimeDependenceSpecifier`: ``LifetimeDependenceSpecifierSyntax``?
 ///  - `type`: ``TypeSyntax``
 ///
 /// ### Contained in
@@ -419,12 +420,15 @@ public struct ReturnClauseSyntax: SyntaxProtocol, SyntaxHashable, _LeafSyntaxNod
   
   /// - Parameters:
   ///   - leadingTrivia: Trivia to be prepended to the leading trivia of the node’s first token. If the node is empty, there is no token to attach the trivia to and the parameter is ignored.
+  ///   - lifetimeDependenceSpecifier: Lifetime dependence specifier
   ///   - trailingTrivia: Trivia to be appended to the trailing trivia of the node’s last token. If the node is empty, there is no token to attach the trivia to and the parameter is ignored.
   public init(
       leadingTrivia: Trivia? = nil,
       _ unexpectedBeforeArrow: UnexpectedNodesSyntax? = nil,
       arrow: TokenSyntax = .arrowToken(),
-      _ unexpectedBetweenArrowAndType: UnexpectedNodesSyntax? = nil,
+      _ unexpectedBetweenArrowAndLifetimeDependenceSpecifier: UnexpectedNodesSyntax? = nil,
+      lifetimeDependenceSpecifier: LifetimeDependenceSpecifierSyntax? = nil,
+      _ unexpectedBetweenLifetimeDependenceSpecifierAndType: UnexpectedNodesSyntax? = nil,
       type: some TypeSyntaxProtocol,
       _ unexpectedAfterType: UnexpectedNodesSyntax? = nil,
       trailingTrivia: Trivia? = nil
@@ -435,14 +439,18 @@ public struct ReturnClauseSyntax: SyntaxProtocol, SyntaxHashable, _LeafSyntaxNod
     self = withExtendedLifetime((SyntaxArena(), (
             unexpectedBeforeArrow, 
             arrow, 
-            unexpectedBetweenArrowAndType, 
+            unexpectedBetweenArrowAndLifetimeDependenceSpecifier, 
+            lifetimeDependenceSpecifier, 
+            unexpectedBetweenLifetimeDependenceSpecifierAndType, 
             type, 
             unexpectedAfterType
           ))) { (arena, _) in
       let layout: [RawSyntax?] = [
           unexpectedBeforeArrow?.raw, 
           arrow.raw, 
-          unexpectedBetweenArrowAndType?.raw, 
+          unexpectedBetweenArrowAndLifetimeDependenceSpecifier?.raw, 
+          lifetimeDependenceSpecifier?.raw, 
+          unexpectedBetweenLifetimeDependenceSpecifierAndType?.raw, 
           type.raw, 
           unexpectedAfterType?.raw
         ]
@@ -479,7 +487,7 @@ public struct ReturnClauseSyntax: SyntaxProtocol, SyntaxHashable, _LeafSyntaxNod
     }
   }
   
-  public var unexpectedBetweenArrowAndType: UnexpectedNodesSyntax? {
+  public var unexpectedBetweenArrowAndLifetimeDependenceSpecifier: UnexpectedNodesSyntax? {
     get {
       return Syntax(self).child(at: 2)?.cast(UnexpectedNodesSyntax.self)
     }
@@ -488,16 +496,17 @@ public struct ReturnClauseSyntax: SyntaxProtocol, SyntaxHashable, _LeafSyntaxNod
     }
   }
   
-  public var type: TypeSyntax {
+  /// Lifetime dependence specifier
+  public var lifetimeDependenceSpecifier: LifetimeDependenceSpecifierSyntax? {
     get {
-      return Syntax(self).child(at: 3)!.cast(TypeSyntax.self)
+      return Syntax(self).child(at: 3)?.cast(LifetimeDependenceSpecifierSyntax.self)
     }
     set(value) {
       self = Syntax(self).replacingChild(at: 3, with: Syntax(value), arena: SyntaxArena()).cast(ReturnClauseSyntax.self)
     }
   }
   
-  public var unexpectedAfterType: UnexpectedNodesSyntax? {
+  public var unexpectedBetweenLifetimeDependenceSpecifierAndType: UnexpectedNodesSyntax? {
     get {
       return Syntax(self).child(at: 4)?.cast(UnexpectedNodesSyntax.self)
     }
@@ -506,11 +515,31 @@ public struct ReturnClauseSyntax: SyntaxProtocol, SyntaxHashable, _LeafSyntaxNod
     }
   }
   
+  public var type: TypeSyntax {
+    get {
+      return Syntax(self).child(at: 5)!.cast(TypeSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 5, with: Syntax(value), arena: SyntaxArena()).cast(ReturnClauseSyntax.self)
+    }
+  }
+  
+  public var unexpectedAfterType: UnexpectedNodesSyntax? {
+    get {
+      return Syntax(self).child(at: 6)?.cast(UnexpectedNodesSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 6, with: Syntax(value), arena: SyntaxArena()).cast(ReturnClauseSyntax.self)
+    }
+  }
+  
   public static var structure: SyntaxNodeStructure {
     return .layout([
           \Self.unexpectedBeforeArrow, 
           \Self.arrow, 
-          \Self.unexpectedBetweenArrowAndType, 
+          \Self.unexpectedBetweenArrowAndLifetimeDependenceSpecifier, 
+          \Self.lifetimeDependenceSpecifier, 
+          \Self.unexpectedBetweenLifetimeDependenceSpecifierAndType, 
           \Self.type, 
           \Self.unexpectedAfterType
         ])

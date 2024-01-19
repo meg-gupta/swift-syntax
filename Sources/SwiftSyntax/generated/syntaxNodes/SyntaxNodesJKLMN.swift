@@ -1652,6 +1652,179 @@ public struct LayoutRequirementSyntax: SyntaxProtocol, SyntaxHashable, _LeafSynt
   }
 }
 
+// MARK: - LifetimeDependenceSpecifierSyntax
+
+/// ### Children
+/// 
+/// 
+///
+/// ### Contained in
+/// 
+///  - ``LifetimeDependentReturnTypeSyntax``.``LifetimeDependentReturnTypeSyntax/lifetimeDependenceSpecifier``
+///  - ``ReturnClauseSyntax``.``ReturnClauseSyntax/lifetimeDependenceSpecifier``
+public struct LifetimeDependenceSpecifierSyntax: SyntaxProtocol, SyntaxHashable, _LeafSyntaxNodeProtocol {
+  public let _syntaxNode: Syntax
+  
+  public init?(_ node: some SyntaxProtocol) {
+    guard node.raw.kind == .lifetimeDependenceSpecifier else {
+      return nil
+    }
+    self._syntaxNode = node._syntaxNode
+  }
+  
+  /// - Parameters:
+  ///   - leadingTrivia: Trivia to be prepended to the leading trivia of the node’s first token. If the node is empty, there is no token to attach the trivia to and the parameter is ignored.
+  ///   - trailingTrivia: Trivia to be appended to the trailing trivia of the node’s last token. If the node is empty, there is no token to attach the trivia to and the parameter is ignored.
+  public init(
+    leadingTrivia: Trivia? = nil,
+    _ unexpected: UnexpectedNodesSyntax? = nil,
+    trailingTrivia: Trivia? = nil
+  ) {
+    // Extend the lifetime of all parameters so their arenas don't get destroyed
+    // before they can be added as children of the new arena.
+    self = withExtendedLifetime((SyntaxArena(), (unexpected))) { (arena, _) in
+      let layout: [RawSyntax?] = [unexpected?.raw]
+      let raw = RawSyntax.makeLayout(
+        kind: SyntaxKind.lifetimeDependenceSpecifier,
+        from: layout,
+        arena: arena,
+        leadingTrivia: leadingTrivia,
+        trailingTrivia: trailingTrivia
+        
+      )
+      return Syntax.forRoot(raw, rawNodeArena: arena).cast(Self.self)
+    }
+  }
+  
+  public var unexpected: UnexpectedNodesSyntax? {
+    get {
+      return Syntax(self).child(at: 0)?.cast(UnexpectedNodesSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 0, with: Syntax(value), arena: SyntaxArena()).cast(LifetimeDependenceSpecifierSyntax.self)
+    }
+  }
+  
+  public static var structure: SyntaxNodeStructure {
+    return .layout([\Self.unexpected])
+  }
+}
+
+// MARK: - LifetimeDependentReturnTypeSyntax
+
+/// ### Children
+/// 
+///  - `lifetimeDependenceSpecifier`: ``LifetimeDependenceSpecifierSyntax``
+///  - `type`: ``TypeSyntax``
+public struct LifetimeDependentReturnTypeSyntax: TypeSyntaxProtocol, SyntaxHashable, _LeafTypeSyntaxNodeProtocol {
+  public let _syntaxNode: Syntax
+  
+  public init?(_ node: some SyntaxProtocol) {
+    guard node.raw.kind == .lifetimeDependentReturnType else {
+      return nil
+    }
+    self._syntaxNode = node._syntaxNode
+  }
+  
+  /// - Parameters:
+  ///   - leadingTrivia: Trivia to be prepended to the leading trivia of the node’s first token. If the node is empty, there is no token to attach the trivia to and the parameter is ignored.
+  ///   - lifetimeDependenceSpecifier: Lifetime Dependence Specifier
+  ///   - trailingTrivia: Trivia to be appended to the trailing trivia of the node’s last token. If the node is empty, there is no token to attach the trivia to and the parameter is ignored.
+  public init(
+      leadingTrivia: Trivia? = nil,
+      _ unexpectedBeforeLifetimeDependenceSpecifier: UnexpectedNodesSyntax? = nil,
+      lifetimeDependenceSpecifier: LifetimeDependenceSpecifierSyntax,
+      _ unexpectedBetweenLifetimeDependenceSpecifierAndType: UnexpectedNodesSyntax? = nil,
+      type: some TypeSyntaxProtocol,
+      _ unexpectedAfterType: UnexpectedNodesSyntax? = nil,
+      trailingTrivia: Trivia? = nil
+    
+  ) {
+    // Extend the lifetime of all parameters so their arenas don't get destroyed
+    // before they can be added as children of the new arena.
+    self = withExtendedLifetime((SyntaxArena(), (
+            unexpectedBeforeLifetimeDependenceSpecifier, 
+            lifetimeDependenceSpecifier, 
+            unexpectedBetweenLifetimeDependenceSpecifierAndType, 
+            type, 
+            unexpectedAfterType
+          ))) { (arena, _) in
+      let layout: [RawSyntax?] = [
+          unexpectedBeforeLifetimeDependenceSpecifier?.raw, 
+          lifetimeDependenceSpecifier.raw, 
+          unexpectedBetweenLifetimeDependenceSpecifierAndType?.raw, 
+          type.raw, 
+          unexpectedAfterType?.raw
+        ]
+      let raw = RawSyntax.makeLayout(
+        kind: SyntaxKind.lifetimeDependentReturnType,
+        from: layout,
+        arena: arena,
+        leadingTrivia: leadingTrivia,
+        trailingTrivia: trailingTrivia
+        
+      )
+      return Syntax.forRoot(raw, rawNodeArena: arena).cast(Self.self)
+    }
+  }
+  
+  public var unexpectedBeforeLifetimeDependenceSpecifier: UnexpectedNodesSyntax? {
+    get {
+      return Syntax(self).child(at: 0)?.cast(UnexpectedNodesSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 0, with: Syntax(value), arena: SyntaxArena()).cast(LifetimeDependentReturnTypeSyntax.self)
+    }
+  }
+  
+  /// Lifetime Dependence Specifier
+  public var lifetimeDependenceSpecifier: LifetimeDependenceSpecifierSyntax {
+    get {
+      return Syntax(self).child(at: 1)!.cast(LifetimeDependenceSpecifierSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 1, with: Syntax(value), arena: SyntaxArena()).cast(LifetimeDependentReturnTypeSyntax.self)
+    }
+  }
+  
+  public var unexpectedBetweenLifetimeDependenceSpecifierAndType: UnexpectedNodesSyntax? {
+    get {
+      return Syntax(self).child(at: 2)?.cast(UnexpectedNodesSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 2, with: Syntax(value), arena: SyntaxArena()).cast(LifetimeDependentReturnTypeSyntax.self)
+    }
+  }
+  
+  public var type: TypeSyntax {
+    get {
+      return Syntax(self).child(at: 3)!.cast(TypeSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 3, with: Syntax(value), arena: SyntaxArena()).cast(LifetimeDependentReturnTypeSyntax.self)
+    }
+  }
+  
+  public var unexpectedAfterType: UnexpectedNodesSyntax? {
+    get {
+      return Syntax(self).child(at: 4)?.cast(UnexpectedNodesSyntax.self)
+    }
+    set(value) {
+      self = Syntax(self).replacingChild(at: 4, with: Syntax(value), arena: SyntaxArena()).cast(LifetimeDependentReturnTypeSyntax.self)
+    }
+  }
+  
+  public static var structure: SyntaxNodeStructure {
+    return .layout([
+          \Self.unexpectedBeforeLifetimeDependenceSpecifier, 
+          \Self.lifetimeDependenceSpecifier, 
+          \Self.unexpectedBetweenLifetimeDependenceSpecifierAndType, 
+          \Self.type, 
+          \Self.unexpectedAfterType
+        ])
+  }
+}
+
 // MARK: - MacroDeclSyntax
 
 /// ### Children

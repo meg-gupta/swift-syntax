@@ -1999,6 +1999,18 @@ public func childName(_ keyPath: AnyKeyPath) -> String? {
     return "rightParen"
   case \LayoutRequirementSyntax.unexpectedAfterRightParen:
     return "unexpectedAfterRightParen"
+  case \LifetimeDependenceSpecifierSyntax.unexpected:
+    return "unexpected"
+  case \LifetimeDependentReturnTypeSyntax.unexpectedBeforeLifetimeDependenceSpecifier:
+    return "unexpectedBeforeLifetimeDependenceSpecifier"
+  case \LifetimeDependentReturnTypeSyntax.lifetimeDependenceSpecifier:
+    return "lifetimeDependenceSpecifier"
+  case \LifetimeDependentReturnTypeSyntax.unexpectedBetweenLifetimeDependenceSpecifierAndType:
+    return "unexpectedBetweenLifetimeDependenceSpecifierAndType"
+  case \LifetimeDependentReturnTypeSyntax.type:
+    return "type"
+  case \LifetimeDependentReturnTypeSyntax.unexpectedAfterType:
+    return "unexpectedAfterType"
   case \MacroDeclSyntax.unexpectedBeforeAttributes:
     return "unexpectedBeforeAttributes"
   case \MacroDeclSyntax.attributes:
@@ -2737,8 +2749,12 @@ public func childName(_ keyPath: AnyKeyPath) -> String? {
     return "unexpectedBeforeArrow"
   case \ReturnClauseSyntax.arrow:
     return "arrow"
-  case \ReturnClauseSyntax.unexpectedBetweenArrowAndType:
-    return "unexpectedBetweenArrowAndType"
+  case \ReturnClauseSyntax.unexpectedBetweenArrowAndLifetimeDependenceSpecifier:
+    return "unexpectedBetweenArrowAndLifetimeDependenceSpecifier"
+  case \ReturnClauseSyntax.lifetimeDependenceSpecifier:
+    return "lifetimeDependenceSpecifier"
+  case \ReturnClauseSyntax.unexpectedBetweenLifetimeDependenceSpecifierAndType:
+    return "unexpectedBetweenLifetimeDependenceSpecifierAndType"
   case \ReturnClauseSyntax.type:
     return "type"
   case \ReturnClauseSyntax.unexpectedAfterType:

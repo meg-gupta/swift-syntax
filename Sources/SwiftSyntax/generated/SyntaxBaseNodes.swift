@@ -1375,6 +1375,7 @@ public extension Syntax {
 /// - ``FunctionTypeSyntax``
 /// - ``IdentifierTypeSyntax``
 /// - ``ImplicitlyUnwrappedOptionalTypeSyntax``
+/// - ``LifetimeDependentReturnTypeSyntax``
 /// - ``MemberTypeSyntax``
 /// - ``MetatypeTypeSyntax``
 /// - ``MissingTypeSyntax``
@@ -1421,7 +1422,7 @@ public struct TypeSyntax: TypeSyntaxProtocol, SyntaxHashable {
   
   public init?(_ node: some SyntaxProtocol) {
     switch node.raw.kind {
-    case .arrayType, .attributedType, .classRestrictionType, .compositionType, .dictionaryType, .functionType, .identifierType, .implicitlyUnwrappedOptionalType, .memberType, .metatypeType, .missingType, .namedOpaqueReturnType, .optionalType, .packElementType, .packExpansionType, .someOrAnyType, .suppressedType, .tupleType:
+    case .arrayType, .attributedType, .classRestrictionType, .compositionType, .dictionaryType, .functionType, .identifierType, .implicitlyUnwrappedOptionalType, .lifetimeDependentReturnType, .memberType, .metatypeType, .missingType, .namedOpaqueReturnType, .optionalType, .packElementType, .packExpansionType, .someOrAnyType, .suppressedType, .tupleType:
       self._syntaxNode = node._syntaxNode
     default:
       return nil
@@ -1454,6 +1455,7 @@ public struct TypeSyntax: TypeSyntaxProtocol, SyntaxHashable {
           .node(FunctionTypeSyntax.self),
           .node(IdentifierTypeSyntax.self),
           .node(ImplicitlyUnwrappedOptionalTypeSyntax.self),
+          .node(LifetimeDependentReturnTypeSyntax.self),
           .node(MemberTypeSyntax.self),
           .node(MetatypeTypeSyntax.self),
           .node(MissingTypeSyntax.self),
@@ -1679,6 +1681,8 @@ extension Syntax {
           .node(LabeledSpecializeArgumentSyntax.self),
           .node(LabeledStmtSyntax.self),
           .node(LayoutRequirementSyntax.self),
+          .node(LifetimeDependenceSpecifierSyntax.self),
+          .node(LifetimeDependentReturnTypeSyntax.self),
           .node(MacroDeclSyntax.self),
           .node(MacroExpansionDeclSyntax.self),
           .node(MacroExpansionExprSyntax.self),

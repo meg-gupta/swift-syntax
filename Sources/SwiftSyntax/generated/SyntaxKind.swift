@@ -178,6 +178,8 @@ public enum SyntaxKind: Sendable {
   case labeledSpecializeArgument
   case labeledStmt
   case layoutRequirement
+  case lifetimeDependenceSpecifier
+  case lifetimeDependentReturnType
   case macroDecl
   case macroExpansionDecl
   case macroExpansionExpr
@@ -748,6 +750,10 @@ public enum SyntaxKind: Sendable {
       return LabeledStmtSyntax.self
     case .layoutRequirement:
       return LayoutRequirementSyntax.self
+    case .lifetimeDependenceSpecifier:
+      return LifetimeDependenceSpecifierSyntax.self
+    case .lifetimeDependentReturnType:
+      return LifetimeDependentReturnTypeSyntax.self
     case .macroDecl:
       return MacroDeclSyntax.self
     case .macroExpansionDecl:

@@ -247,19 +247,23 @@ public struct RawReturnClauseSyntax: RawSyntaxNodeProtocol {
   public init(
       _ unexpectedBeforeArrow: RawUnexpectedNodesSyntax? = nil, 
       arrow: RawTokenSyntax, 
-      _ unexpectedBetweenArrowAndType: RawUnexpectedNodesSyntax? = nil, 
+      _ unexpectedBetweenArrowAndLifetimeDependenceSpecifier: RawUnexpectedNodesSyntax? = nil, 
+      lifetimeDependenceSpecifier: RawLifetimeDependenceSpecifierSyntax?, 
+      _ unexpectedBetweenLifetimeDependenceSpecifierAndType: RawUnexpectedNodesSyntax? = nil, 
       type: RawTypeSyntax, 
       _ unexpectedAfterType: RawUnexpectedNodesSyntax? = nil, 
       arena: __shared SyntaxArena
     ) {
     let raw = RawSyntax.makeLayout(
-      kind: .returnClause, uninitializedCount: 5, arena: arena) { layout in
+      kind: .returnClause, uninitializedCount: 7, arena: arena) { layout in
       layout.initialize(repeating: nil)
       layout[0] = unexpectedBeforeArrow?.raw
       layout[1] = arrow.raw
-      layout[2] = unexpectedBetweenArrowAndType?.raw
-      layout[3] = type.raw
-      layout[4] = unexpectedAfterType?.raw
+      layout[2] = unexpectedBetweenArrowAndLifetimeDependenceSpecifier?.raw
+      layout[3] = lifetimeDependenceSpecifier?.raw
+      layout[4] = unexpectedBetweenLifetimeDependenceSpecifierAndType?.raw
+      layout[5] = type.raw
+      layout[6] = unexpectedAfterType?.raw
     }
     self.init(unchecked: raw)
   }
@@ -272,16 +276,24 @@ public struct RawReturnClauseSyntax: RawSyntaxNodeProtocol {
     layoutView.children[1].map(RawTokenSyntax.init(raw:))!
   }
   
-  public var unexpectedBetweenArrowAndType: RawUnexpectedNodesSyntax? {
+  public var unexpectedBetweenArrowAndLifetimeDependenceSpecifier: RawUnexpectedNodesSyntax? {
     layoutView.children[2].map(RawUnexpectedNodesSyntax.init(raw:))
   }
   
+  public var lifetimeDependenceSpecifier: RawLifetimeDependenceSpecifierSyntax? {
+    layoutView.children[3].map(RawLifetimeDependenceSpecifierSyntax.init(raw:))
+  }
+  
+  public var unexpectedBetweenLifetimeDependenceSpecifierAndType: RawUnexpectedNodesSyntax? {
+    layoutView.children[4].map(RawUnexpectedNodesSyntax.init(raw:))
+  }
+  
   public var type: RawTypeSyntax {
-    layoutView.children[3].map(RawTypeSyntax.init(raw:))!
+    layoutView.children[5].map(RawTypeSyntax.init(raw:))!
   }
   
   public var unexpectedAfterType: RawUnexpectedNodesSyntax? {
-    layoutView.children[4].map(RawUnexpectedNodesSyntax.init(raw:))
+    layoutView.children[6].map(RawUnexpectedNodesSyntax.init(raw:))
   }
 }
 

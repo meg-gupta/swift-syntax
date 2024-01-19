@@ -1203,6 +1203,20 @@ open class SyntaxRewriter {
     return visitChildren(node)
   }
   
+  /// Visit a ``LifetimeDependenceSpecifierSyntax``.
+  ///   - Parameter node: the node that is being visited
+  ///   - Returns: the rewritten node
+  open func visit(_ node: LifetimeDependenceSpecifierSyntax) -> LifetimeDependenceSpecifierSyntax {
+    return visitChildren(node)
+  }
+  
+  /// Visit a ``LifetimeDependentReturnTypeSyntax``.
+  ///   - Parameter node: the node that is being visited
+  ///   - Returns: the rewritten node
+  open func visit(_ node: LifetimeDependentReturnTypeSyntax) -> TypeSyntax {
+    return TypeSyntax(visitChildren(node))
+  }
+  
   /// Visit a ``MacroDeclSyntax``.
   ///   - Parameter node: the node that is being visited
   ///   - Returns: the rewritten node
@@ -2756,6 +2770,14 @@ open class SyntaxRewriter {
       return {
         self.visitImpl($0, LayoutRequirementSyntax.self, self.visit)
       }
+    case .lifetimeDependenceSpecifier:
+      return {
+        self.visitImpl($0, LifetimeDependenceSpecifierSyntax.self, self.visit)
+      }
+    case .lifetimeDependentReturnType:
+      return {
+        self.visitImpl($0, LifetimeDependentReturnTypeSyntax.self, self.visit)
+      }
     case .macroDecl:
       return {
         self.visitImpl($0, MacroDeclSyntax.self, self.visit)
@@ -3558,6 +3580,10 @@ open class SyntaxRewriter {
       return visitImpl(node, LabeledStmtSyntax.self, visit)
     case .layoutRequirement:
       return visitImpl(node, LayoutRequirementSyntax.self, visit)
+    case .lifetimeDependenceSpecifier:
+      return visitImpl(node, LifetimeDependenceSpecifierSyntax.self, visit)
+    case .lifetimeDependentReturnType:
+      return visitImpl(node, LifetimeDependentReturnTypeSyntax.self, visit)
     case .macroDecl:
       return visitImpl(node, MacroDeclSyntax.self, visit)
     case .macroExpansionDecl:
