@@ -158,6 +158,15 @@ public let COMMON_NODES: [Node] = [
     ]
   ),
 
+   Node(
+    kind: .lifetimeDependenceSpecifier,
+    base: .syntax,
+    nameForDiagnostics: "lifetime dependence specifiers",
+    traits: [
+      "LifetimeDependenceSpecifiers"
+    ]
+  ),
+
   Node(
     kind: .deinitializerEffectSpecifiers,
     base: .syntax,

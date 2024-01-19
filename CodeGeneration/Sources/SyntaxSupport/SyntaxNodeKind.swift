@@ -182,6 +182,8 @@ public enum SyntaxNodeKind: String, CaseIterable {
   case labeledSpecializeArgument
   case labeledStmt
   case layoutRequirement
+  case lifetimeDependenceSpecifier
+  case lifetimeDependentReturnType
   case macroDecl
   case macroExpansionDecl
   case macroExpansionExpr

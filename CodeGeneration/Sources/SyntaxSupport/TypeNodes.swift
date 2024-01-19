@@ -336,6 +336,24 @@ public let TYPE_NODES: [Node] = [
   ),
 
   Node(
+    kind: .lifetimeDependentReturnType,
+    base: .type,
+    nameForDiagnostics: "lifetime dependent return type",
+    children: [
+      Child(
+        name: "lifetimeDependenceSpecifier",
+        kind: .node(kind: .lifetimeDependenceSpecifier),
+        documentation: "Lifetime Dependence Specifier"
+      ),
+      Child(
+        name: "type",
+        deprecatedName: "baseType",
+        kind: .node(kind: .type)
+      ),
+    ]
+  ),
+
+  Node(
     kind: .optionalType,
     base: .type,
     nameForDiagnostics: "optional type",

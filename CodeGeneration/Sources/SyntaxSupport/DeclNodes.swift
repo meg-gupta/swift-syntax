@@ -1925,6 +1925,13 @@ public let DECL_NODES: [Node] = [
         name: "arrow",
         kind: .token(choices: [.token(.arrow)])
       ),
+       Child(
+        name: "lifetimeDependenceSpecifier",
+        kind: .node(kind: .lifetimeDependenceSpecifier),
+        nameForDiagnostics: "Lifetime dependence specifier",
+        documentation: "Lifetime dependence specifier",
+        isOptional: true
+      ),
       Child(
         name: "type",
         deprecatedName: "returnType",
